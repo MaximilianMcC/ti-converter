@@ -10,7 +10,7 @@ Quickly convert from a range of measurements on the TI-84+ CE
 - [ ] Convert the values
 - [ ] Show the calculations used to convert
 - [ ] General polish. Make look nice
-- [ ] Switch to C++ if needed
+- [x] Switch to C++ if needed
 
 ## Wireframe
 This is what it could look like convering 4 hour to minut!!
