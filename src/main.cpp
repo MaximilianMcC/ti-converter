@@ -2,6 +2,7 @@
 #include <tice.h>
 #include <graphx.h>
 #include <debug.h>
+#include "verticalMenu.cpp"
 
 
 // Colors
@@ -13,6 +14,20 @@ int main(void) {
 	dbg_printf("[Converter] Running\n");
 	gfx_Begin();
 
+
+	//! test stuff
+	Object testItems[] = {
+		{ "Milliseconds", "ms" },
+		{ "Seconds", "s" },
+		{ "Minutes", "m" },
+		{ "Hours", "h" },
+		{ "Days", "d" }
+	};
+	uint8_t testItemsLength = sizeof(testItems) / sizeof(testItems[0]);
+	VerticalMenu testMenu(testItems, testItemsLength);
+
+
+
 	// Main loop
 	while (true) {
 
@@ -21,12 +36,13 @@ int main(void) {
 		if (key == sk_Clear) break;
 
 
+		testMenu.Update(key);
+
+
 		// Clear screen for drawing the next frame
 		gfx_FillScreen(BACKGROUND);
 
-		gfx_SetTextFGColor(FOREGROUND);
-		gfx_PrintStringXY("Converter", 10, 10);
-
+		testMenu.Render();
 		
 		// Update the screen
 		gfx_SwapDraw();
