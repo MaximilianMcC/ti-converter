@@ -6,8 +6,8 @@
 
 
 // Colors
-#define BACKGROUND 0
-#define FOREGROUND 223 //! 255 is transparent so use this
+#define BACKGROUND 223
+#define FOREGROUND 0
 
 
 int main(void) {
@@ -27,7 +27,7 @@ int main(void) {
 		{ "Years", "y" }
 	};
 	uint8_t testItemsLength = sizeof(testItems) / sizeof(testItems[0]);
-	VerticalMenu testMenu(testItems, testItemsLength);
+	VerticalMenu testMenu(testItems, testItemsLength, VerticalMenu::RIGHT);
 
 
 
