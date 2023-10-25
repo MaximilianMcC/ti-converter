@@ -27,7 +27,7 @@ int main(void) {
 		{ "Years", "y" }
 	};
 	uint8_t testItemsLength = sizeof(testItems) / sizeof(testItems[0]);
-	VerticalMenu testMenu(testItems, testItemsLength, VerticalMenu::RIGHT);
+	VerticalMenu testMenu(testItems, testItemsLength, VerticalMenu::CENTRE);
 
 
 

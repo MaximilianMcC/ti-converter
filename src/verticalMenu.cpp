@@ -9,6 +9,7 @@
 class VerticalMenu {
 
 	// Colors
+	#define CHOSEN_COLOR 135
 	#define SELECTED_COLOR 0
 	#define NOT_SELECTED_COLOR 53
 
@@ -26,30 +27,21 @@ class VerticalMenu {
 			items = menuItems;
 			itemsLength = menuItemsLength;
 			position = menuPosition;
-
-			// Setup graphics stuff
-			// TODO: Change color and stuff to fit more with the default calculator UI
-			gfx_SetTextFGColor(167); //? green
 		}
 
 		// Update the menu logic
 		void Update(uint8_t key) {
 
 			// Check for if the user "scrolls"
-			if (key == sk_Up) {
-
-				index--;
-				lastTimeIndexUpdated = rtc_Time();
-
-			} else if (key == sk_Down) {
-
-				index++;
-				lastTimeIndexUpdated = rtc_Time();
-			}
+			if (key == sk_Up) index--;
+			else if (key == sk_Down) index++;
 
 			// Clamp the index to how many menu items there are
 			if (index == 255) index = 0;
 			else if (index > itemsLength - 1) index = itemsLength - 1;
+
+			// Check for if the user selects an option
+			if (key == sk_Enter) selectedItemIndex = index;
 		}
 
 		//todo: final y then the initial y as a and b then use time make it 4 seconds or smth idk for the lerping
@@ -69,14 +61,20 @@ class VerticalMenu {
 					// Top/bottom items
 					gfx_SetTextFGColor(NOT_SELECTED_COLOR);
 					scale = 1;
+
+					// Check for if this is the selected item
 				}
 				else if (i == index) {
 
 					// Middle/selected item
 					gfx_SetTextFGColor(SELECTED_COLOR);
 					scale = 2;
+
+					// Check for if this is the selected item
+					if (i == selectedItemIndex) gfx_SetTextFGColor(CHOSEN_COLOR);
 				}
 				else continue;
+				
 
 				// Get the length of the current text for rendering
 				gfx_SetTextScale(scale, scale);
@@ -92,8 +90,7 @@ class VerticalMenu {
 				uint8_t y = 50;
 				if (position == CENTRE) x = (LCD_WIDTH - textWidth) / 2;
 				else if (position == LEFT) x = ((LCD_WIDTH / 2) - textWidth) / 2;
-				// else if (position == RIGHT) x = ((LCD_WIDTH / 2) - textWidth) / 2;
-				// else if (position == RIGHT) x = ();
+				else if (position == RIGHT) x = LCD_WIDTH - textWidth - ((LCD_WIDTH / 2) - textWidth) / 2;
 
 
 				// Render the text
@@ -106,7 +103,7 @@ class VerticalMenu {
 
 	private:
 		uint8_t index = 0;
-		uint16_t lastTimeIndexUpdated;
+		uint8_t selectedItemIndex;
 
 		Object* items;
 		uint8_t itemsLength;
