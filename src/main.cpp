@@ -21,7 +21,10 @@ int main(void) {
 		{ "Seconds", "s" },
 		{ "Minutes", "m" },
 		{ "Hours", "h" },
-		{ "Days", "d" }
+		{ "Days", "d" },
+		{ "Weeks", "w" },
+		{ "Months", "M" },
+		{ "Years", "y" }
 	};
 	uint8_t testItemsLength = sizeof(testItems) / sizeof(testItems[0]);
 	VerticalMenu testMenu(testItems, testItemsLength);
