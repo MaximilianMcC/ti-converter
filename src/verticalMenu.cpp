@@ -9,7 +9,6 @@
 class VerticalMenu {
 
 	// Colors
-	#define CHOSEN_COLOR 135
 	#define SELECTED_COLOR 0
 	#define NOT_SELECTED_COLOR 53
 
@@ -30,7 +29,7 @@ class VerticalMenu {
 		}
 
 		// Update the menu logic
-		void Update(uint8_t key) {
+		uint8_t Update(uint8_t key) {
 
 			// Check for if the user "scrolls"
 			if (key == sk_Up) index--;
@@ -41,43 +40,40 @@ class VerticalMenu {
 			else if (index > itemsLength - 1) index = itemsLength - 1;
 
 			// Check for if the user selects an option
-			if (key == sk_Enter) selectedItemIndex = index;
+			if (key == sk_Enter) return index;
+			
+			// Nothing was pressed
+			return NULL;
 		}
 
-		//todo: final y then the initial y as a and b then use time make it 4 seconds or smth idk for the lerping
+		//todo: final y then the initial y as a and b then use time make it 4 seconds or smth idk for the lerping (lerp it)
 
 		// Draw the menu
 		void Render() {
-			
-			uint8_t scale = 1;
 			
 			// Render the 3 elements above around the index
 			// (one above, and one below)
 			for (uint8_t i = 0; i < itemsLength; i++) {
 
-				// Choose how each of the 3 elements should be rendered
-				if (i == index - 1 || i == index + 1) {
+				// Default values
+				uint8_t scale = 1;
+				uint8_t color = NOT_SELECTED_COLOR;
 
-					// Top/bottom items
-					gfx_SetTextFGColor(NOT_SELECTED_COLOR);
-					scale = 1;
 
-					// Check for if this is the selected item
-				}
-				else if (i == index) {
+				// Choose how the current element should be rendered
+				if (i == index) {
 
 					// Middle/selected item
-					gfx_SetTextFGColor(SELECTED_COLOR);
+					color = SELECTED_COLOR;
 					scale = 2;
-
-					// Check for if this is the selected item
-					if (i == selectedItemIndex) gfx_SetTextFGColor(CHOSEN_COLOR);
 				}
-				else continue;
+				else if (i != index - 1 || i != index + 1) continue;
 				
+				// Apply the text decoration
+				gfx_SetTextFGColor(color);
+				gfx_SetTextScale(scale, scale);
 
 				// Get the length of the current text for rendering
-				gfx_SetTextScale(scale, scale);
 				uint8_t textWidth = 0;
 				for (uint8_t j = 0; j < strlen(items[i].displayName); j++)
 				{
@@ -103,7 +99,6 @@ class VerticalMenu {
 
 	private:
 		uint8_t index = 0;
-		uint8_t selectedItemIndex;
 
 		Object* items;
 		uint8_t itemsLength;

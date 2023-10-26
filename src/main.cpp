@@ -39,8 +39,9 @@ int main(void) {
 		if (key == sk_Clear) break;
 
 
-		testMenu.Update(key);
-
+		uint8_t selection = testMenu.Update(key);
+		
+		if (selection != 0) dbg_printf("%d\n", selection);
 
 		// Clear screen for drawing the next frame
 		gfx_FillScreen(BACKGROUND);
