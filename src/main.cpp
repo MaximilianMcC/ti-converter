@@ -15,20 +15,17 @@ int main(void) {
 	gfx_Begin();
 
 
-	//! test stuff
-	Object testItems[] = {
-		{ "Milliseconds", "ms" },
-		{ "Seconds", "s" },
-		{ "Minutes", "m" },
-		{ "Hours", "h" },
-		{ "Days", "d" },
-		{ "Weeks", "w" },
-		{ "Months", "M" },
-		{ "Years", "y" }
-	};
-	uint8_t testItemsLength = sizeof(testItems) / sizeof(testItems[0]);
-	VerticalMenu testMenu(testItems, testItemsLength, VerticalMenu::CENTRE);
 
+	// Different measurement
+	Object measurements[] = {
+		{ "Distance", "d" },
+		{ "Time", "t" },
+		{ "Speed", "s" },
+		{ "Electricity", "e" }
+	};
+	uint8_t measurementsLength = sizeof(measurements) / sizeof(measurements[0]);
+	VerticalMenu measurementsMenuTo(measurements, measurementsLength, VerticalMenu::LEFT, 100);
+	VerticalMenu measurementsMenuFrom(measurements, measurementsLength, VerticalMenu::RIGHT, 100);
 
 
 	// Main loop
@@ -38,16 +35,19 @@ int main(void) {
 		uint8_t key = os_GetCSC();
 		if (key == sk_Clear) break;
 
-
-		uint8_t selection = testMenu.Update(key);
+		// TODO: Make a way to toggle between left and right
+		uint8_t selectionTo = measurementsMenuTo.Update(key);
+		uint8_t selectionFrom = measurementsMenuFrom.Update(key);
 		
-		if (selection != 0) dbg_printf("%d\n", selection);
+		if (selectionTo != 0) dbg_printf("to %d\n", selection);
+		if (selectionFrom != 0) dbg_printf("from %d\n", selection);
 
 		// Clear screen for drawing the next frame
 		gfx_FillScreen(BACKGROUND);
 
-		testMenu.Render();
-		
+		measurementsMenuTo.Render();
+		measurementsMenuFrom.Render();
+
 		// Update the screen
 		gfx_SwapDraw();
 	}

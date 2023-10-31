@@ -20,12 +20,14 @@ class VerticalMenu {
 			CENTRE
 		};
 
-		VerticalMenu(Object menuItems[], uint8_t menuItemsLength, MenuPosition menuPosition) {
+		VerticalMenu(Object menuItems[], uint8_t menuItemsLength, MenuPosition menuPosition, uint8_t yStart = 50) {
 
 			// Set up menu items
 			items = menuItems;
 			itemsLength = menuItemsLength;
+
 			position = menuPosition;
+			initialY = yStart;
 		}
 
 		// Update the menu logic
@@ -83,7 +85,7 @@ class VerticalMenu {
 
 				// Check for where the menu needs to be rendered
 				uint8_t x = 0;
-				uint8_t y = 50;
+				uint8_t y = initialY;
 				if (position == CENTRE) x = (LCD_WIDTH - textWidth) / 2;
 				else if (position == LEFT) x = ((LCD_WIDTH / 2) - textWidth) / 2;
 				else if (position == RIGHT) x = LCD_WIDTH - textWidth - ((LCD_WIDTH / 2) - textWidth) / 2;
@@ -104,6 +106,7 @@ class VerticalMenu {
 		uint8_t itemsLength;
 
 		MenuPosition position;
+		uint8_t initialY;
 
 		// Linear interpolation
 		uint8_t lerp(uint8_t start, uint8_t end, uint8_t percentage) {
